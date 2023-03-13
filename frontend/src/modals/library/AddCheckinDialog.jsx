@@ -6,26 +6,21 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
 import {useToast} from "../../components/ToastContextProvider.tsx";
-import {InputLabel, MenuItem, Select} from "@mui/material";
-import {object, string, number, date} from "yup";
 
 export default function AddCheckoutDialog({updateRow, row, open, handleClose}) {
-    const { toastError } = useToast();
+    const {toastError} = useToast();
 
     const handleSubmit = async (event) => {
         event.preventDefault()
 
-            await axios.delete('/api/borrow/'+row.id)
-                .then(response => response.data)
-                .then(data => {
-                    updateRow(data)
-                }).catch((e) => toastError(e))
-                .finally(() => handleClose())
+        await axios.delete('/api/borrow/' + row.id)
+            .then(response => response.data)
+            .then(data => {
+                updateRow(data)
+            }).catch((e) => toastError(e))
+            .finally(() => handleClose())
     }
 
     return (
@@ -39,7 +34,7 @@ export default function AddCheckoutDialog({updateRow, row, open, handleClose}) {
                     <DialogTitle>Check-in</DialogTitle>
                     <DialogContent>
                         <Grid container spacing={3} sx={{
-                                display: 'flex',
+                            display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>

@@ -4,7 +4,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Link from "./StyledLink.jsx";
 import {useAuth} from "./AuthProvider.jsx";

@@ -1,7 +1,4 @@
 import * as React from 'react';
-import {useLocation, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import Alert, {AlertColor} from "@mui/material/Alert";
 
@@ -51,7 +48,7 @@ export const ToastContextProvider = ({ children }) => {
         } else {
             setMessage(error.toString());
         }
-        // Objects are not valid as a React child (found: object with keys {author}). If you meant to render a collection of children, use an array instead
+
         setType('error');
         setDuration(5000);
         setOpen(true);
@@ -59,6 +56,7 @@ export const ToastContextProvider = ({ children }) => {
 
     const contextValue = { toast,toastError };
 
+    // @ts-ignore
     return (
         <ToastContext.Provider value={contextValue}>
             <>

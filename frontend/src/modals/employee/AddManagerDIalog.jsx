@@ -12,18 +12,10 @@ import {InputLabel, MenuItem, Select} from "@mui/material";
 import {number, object, string} from "yup";
 import axios from "axios";
 
-export default function AddManagerDialog({open, addRow, listManager,handleClose}) {
-    const { toastError } = useToast();
+export default function AddManagerDialog({open, addRow, listManager, handleClose}) {
+    const {toastError} = useToast();
 
-    // const [salary, setSalary] = useState(0);
     let [managerId, setManagerId] = React.useState(0);
-
-    // const handleSalaryChange = (event) => {
-    //     const value = event.target.value;
-    //     if (value >= 1 && value <= 10) {
-    //         setSalary(value);
-    //     }
-    // };
 
     let userSchema = object({
         firstName: string().required(),
@@ -101,9 +93,6 @@ export default function AddManagerDialog({open, addRow, listManager,handleClose}
                                     autoComplete="given-name"
                                     variant="standard"
                                     defaultValue={"1"}
-                                    // value={salary}
-                                    // onChange={handleSalaryChange}
-                                    // inputProps={{ min: 1, max: 10 }}
                                 />
                             </Grid>
 
@@ -120,14 +109,13 @@ export default function AddManagerDialog({open, addRow, listManager,handleClose}
                                     <MenuItem value={0}><em>None</em></MenuItem>
                                     {
                                         listManager.map(value => (
-                                            <MenuItem value={value.id} key={value.id}>{value.firstName} {value.lastName}</MenuItem>
+                                            <MenuItem value={value.id}
+                                                      key={value.id}>{value.firstName} {value.lastName}</MenuItem>
                                         ))
                                     }
                                 </Select>
                             </Grid>
-
                         </Grid>
-
                     </DialogContent>
                     <DialogActions>
                         <Button type="submit">Submit</Button>

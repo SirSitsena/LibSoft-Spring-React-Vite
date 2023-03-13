@@ -21,15 +21,12 @@ import axios from "axios";
 
 // Custom components
 import AddEmployeeDialog from "../modals/employee/AddEmployeeDialog.jsx";
-import {a11yProps} from "../components/TabPanel.jsx";
 import AddManagerDialog from "../modals/employee/AddManagerDIalog";
 import AddCeoDialog from "../modals/employee/AddCeoDialog";
-// import EditEmployeeDialog   from "../modals/edit_dialogs/EditEmployeeDialog";
 
 // Context
 import {useToast} from "../components/ToastContextProvider";
 
-// const {useQuery, ...data} = createFakeServer({}, SERVER_OPTIONS);
 
 const columns = [
     {field: 'id', headerName: 'ID', width: 90},
@@ -97,7 +94,7 @@ function handleDelete({api, row}) {
         .then(response => response.data)
         .then(data => {
             if (data) {
-                console.log("remove: " + row.id)
+                // console.log("remove: " + row.id)
                 api.updateRows([{id: row.id, _action: 'delete'}]);
             }
         }).catch((e) => console.log(e))
@@ -125,7 +122,6 @@ export default function EmployeePage() {
 
     const fetchData = () => {
         setLoading(true)
-        // axios.get("/api/employees?limit=" + pageSize + "&page=" + page)
         axios.get("/api/employees")
             .then(response => {
                 return response.data
@@ -138,20 +134,14 @@ export default function EmployeePage() {
             .finally(() => setLoading(false))
     }
 
-    // const { isLoading, rows, pageInfo } = useQuery(paginationModel); //Fake data
-
     const [paginationModel, setPaginationModel] = React.useState({
         page: 0,
         pageSize: 10,
     });
 
-    // React.useEffect(() => {
-    //     fetchData(paginationModel)
-    // }, [useOnce]);
-
-    React.useEffect(()=>{
+    React.useEffect(() => {
         setShowCeoButton(rows.findIndex(row => row.isCeo) >= 0)
-    },[rows])
+    }, [rows])
 
     React.useEffect(() => {
         fetchData()
@@ -166,14 +156,12 @@ export default function EmployeePage() {
     }
 
     const handlerPaginationModel = ({pageSize, page}) => {
-        // fetchData({page, pageSize})
         setPaginationModel({page, pageSize})
     }
 
     const [filterModel, setFilterModel] = React.useState({items: []});
-    // const [columnVisibilityModel, setColumnVisibilityModel] = React.useState({});
 
-    // Because I do not want to pay for Premium MUI, I had to blow my head to come with a solution to having
+    // Because I do not want to pay for Premium MUI, I had to blow my head to come up with a solution to allow
     // multiple filtering arguments for the tabs. Alternative to filterModels.
     let filters = [
         (row) => !row.isManager && !row.isCeo,
@@ -182,7 +170,7 @@ export default function EmployeePage() {
     ]
 
     useEffect(() => {
-        console.log('row update')
+        // console.log('row update')
         let filtered = rows.filter(filters[tabPage]); //Not nice, but I had no choice/time.
         setColumnVisibilityModel(columnVisibilityModels[tabPage])
         setRowsFilter(filtered)
@@ -192,19 +180,17 @@ export default function EmployeePage() {
     const processRowUpdate = React.useCallback(
         async (newRow, oldRow) => {
 
-            if(!newRow.isCeo && !newRow.isManager && newRow.managerId == null){
-                // apiRef.current.stopRowEditMode({id: oldRow.id, ignoreModifications: true})
+            if (!newRow.isCeo && !newRow.isManager && newRow.managerId == null) {
                 return oldRow;
             }
 
             let res = await axios.post("/api/employee/update", newRow)
                 .catch(reason => toastError(reason))
-            // if(e.preventDefault) e.preventDefault()
             if (!res) {
                 apiRef.current.stopRowEditMode({id: oldRow.id, ignoreModifications: true})
                 return oldRow;
             } else {
-                console.log("update " + res.status)
+                // console.log("update " + res.status)
                 return newRow;
             }
         },
@@ -242,7 +228,7 @@ export default function EmployeePage() {
                     <RestartAltIcon/>
                 </ListItemIcon>
             </Grid>
-            {/*<TabPanel value={value} index={0}>*/}
+
             <Box sx={{height: 680, width: '100'}}>
                 <DataGrid
                     rows={rowsFilter}
@@ -265,9 +251,7 @@ export default function EmployeePage() {
                     }}
                     columnVisibilityModel={columnVisibilityModel}
                     onColumnVisibilityModelChange={(newModel) => setColumnVisibilityModel(newModel)}
-                    // onChangePage={fetchData}
 
-                    // checkboxSelection
                     disableRowSelectionOnClick
                 />
             </Box>

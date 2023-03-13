@@ -15,7 +15,7 @@ import {object, string, number, date} from "yup";
 import {InputLabel, MenuItem, Select} from "@mui/material";
 
 export default function AddAudioBookDialog({addRow, open, handleClose}) {
-    const { toastError } = useToast();
+    const {toastError} = useToast();
 
     let userSchema = object({
         title: string().required(),
@@ -32,7 +32,7 @@ export default function AddAudioBookDialog({addRow, open, handleClose}) {
         data.forEach((value, key) => object[key] = value);
 
         await userSchema.validate(object)
-            .catch(e => toast({message:e.toLocaleString(),type: 'error'}))
+            .catch(e => toast({message: e.toLocaleString(), type: 'error'}))
 
         if (userSchema.isValidSync(object)) {
             await axios.post('/api/lib-item/add', object)
@@ -49,14 +49,14 @@ export default function AddAudioBookDialog({addRow, open, handleClose}) {
     let [categoryName, setCategoryName] = React.useState("");
     let [categories, setCategories] = React.useState([]);
 
-    React.useEffect( ()=>{
+    React.useEffect(() => {
         axios.get('/api/categories')
             .then(response => response.data)
             .then(data => {
                 setCategories(data.categories)
             })
             .catch((e) => console.log(e))
-    },[])
+    }, [])
 
     return (
         <React.Fragment>
@@ -97,7 +97,8 @@ export default function AddAudioBookDialog({addRow, open, handleClose}) {
                                     <MenuItem value=""><em>None</em></MenuItem>
                                     {
                                         categories.map(value => (
-                                            <MenuItem value={value.categoryName} key={value.id}>{value.categoryName}</MenuItem>
+                                            <MenuItem value={value.categoryName}
+                                                      key={value.id}>{value.categoryName}</MenuItem>
                                         ))
                                     }
                                 </Select>

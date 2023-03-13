@@ -7,15 +7,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
 import {useToast} from "../../components/ToastContextProvider.tsx";
-import {object, string, number, date} from "yup";
-import {InputLabel, MenuItem, Select} from "@mui/material";
+import {object, string} from "yup";
 
 export default function AddACategoryDialog({addRow, open, handleClose}) {
-    const { toastError } = useToast();
+    const {toastError} = useToast();
 
     let userSchema = object({
         categoryName: string().required(),
@@ -32,11 +29,11 @@ export default function AddACategoryDialog({addRow, open, handleClose}) {
             .catch(e => toastError(e))
 
         if (userSchema.isValidSync(object)) {
-            await axios.post('/api/category/add/'+object.categoryName)
+            await axios.post('/api/category/add/' + object.categoryName)
                 .then(response => response.data)
                 .then(data => {
                     addRow(data)
-                    console.log(data)
+                    // console.log(data)
                 }).catch((e) => toastError(e))
                 .finally(() => handleClose())
         }
@@ -61,18 +58,18 @@ export default function AddACategoryDialog({addRow, open, handleClose}) {
                                 alignItems: 'center',
                                 justifyContent: 'center'
                             }}>
-                            <Grid item sm={8}>
-                                <TextField
-                                    required
-                                    id="categoryName"
-                                    name="categoryName"
-                                    label="Category Name"
-                                    fullWidth
-                                    autoComplete="given-name"
-                                    variant="standard"
-                                    type="string"
-                                />
-                            </Grid>
+                                <Grid item sm={8}>
+                                    <TextField
+                                        required
+                                        id="categoryName"
+                                        name="categoryName"
+                                        label="Category Name"
+                                        fullWidth
+                                        autoComplete="given-name"
+                                        variant="standard"
+                                        type="string"
+                                    />
+                                </Grid>
                             </Grid>
                         </Grid>
                         <Box

@@ -6,24 +6,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import {useState} from "react";
 import {useToast} from "../../components/ToastContextProvider.tsx";
 import {InputLabel, MenuItem, Select} from "@mui/material";
 import axios from "axios";
-import {date, number, object, string} from "yup";
+import {number, object, string} from "yup";
 
 export default function AddEmployeeDialog({open, addRow, listManager, handleClose}) {
     const {toastError} = useToast();
 
-    // const [salary, setSalary] = useState(0);
     let [managerId, setManagerId] = React.useState(0);
-
-    // const handleSalaryChange = (event) => {
-    //     const value = event.target.value;
-    //     if (value >= 1 && value <= 10) {
-    //         setSalary(value);
-    //     }
-    // };
 
     let userSchema = object({
         firstName: string().required(),
@@ -104,9 +95,6 @@ export default function AddEmployeeDialog({open, addRow, listManager, handleClos
                                     autoComplete="given-name"
                                     variant="standard"
                                     defaultValue={"1"}
-                                    // value={salary}
-                                    // onChange={handleSalaryChange}
-                                    // inputProps={{ min: 1, max: 10 }}
                                 />
                             </Grid>
 
@@ -130,9 +118,7 @@ export default function AddEmployeeDialog({open, addRow, listManager, handleClos
                                     }
                                 </Select>
                             </Grid>
-
                         </Grid>
-
                     </DialogContent>
                     <DialogActions>
                         <Button type="submit">Submit</Button>
@@ -141,76 +127,5 @@ export default function AddEmployeeDialog({open, addRow, listManager, handleClos
                 </form>
             </Dialog>
         </React.Fragment>
-
-        // <React.Fragment>
-        //     <Dialog
-        //         fullWidth={true}
-        //         maxWidth={'sm'}
-        //         open={open}
-        //     >
-        //         <form onSubmit={handleSubmit}>
-        //             <DialogTitle>New mortal employee</DialogTitle>
-        //             <DialogContent>
-        //                 <DialogContentText>
-        //                     <FormControl variant="standard">
-        //                         <InputLabel htmlFor="first_name">First Name</InputLabel>
-        //                         <Input id="first_name" name="first_name" defaultValue="" />
-        //                     </FormControl>
-        //                     <FormControl variant="standard">
-        //                         <InputLabel htmlFor="component-simple">Second Name</InputLabel>
-        //                         <Input id="component-simple" defaultValue="" />
-        //                     </FormControl>
-        //                     <FormControl variant="standard">
-        //                         <InputLabel htmlFor="component-helper">Salary</InputLabel>
-        //                         <Input
-        //                             id="component-helper"
-        //                             defaultValue="1"
-        //                             aria-describedby="component-helper-text"
-        //                         />
-        //                         <FormHelperText id="component-helper-text">
-        //                             1 - 10
-        //                         </FormHelperText>
-        //                     </FormControl>
-        //                     <FormControl variant="standard">
-        //                         <InputLabel htmlFor="component-helper">ManagerId</InputLabel>
-        //                         <Input
-        //                             id="component-helper"
-        //                             defaultValue=""
-        //                             aria-describedby="component-helper-text"
-        //                         />
-        //                         <FormHelperText id="component-helper-text">
-        //                             Pick a feudal lord
-        //                         </FormHelperText>
-        //                     </FormControl>
-        //                     <FormControl disabled variant="standard">
-        //                         <InputLabel htmlFor="component-disabled">IsManager</InputLabel>
-        //                         <Input id="component-disabled" defaultValue="false" />
-        //                         <FormHelperText>Disabled</FormHelperText>
-        //                     </FormControl>
-        //                     <FormControl disabled variant="standard">
-        //                         <InputLabel htmlFor="component-disabled">IsCEO</InputLabel>
-        //                         <Input id="component-disabled" defaultValue="false" />
-        //                         <FormHelperText>Disabled</FormHelperText>
-        //                     </FormControl>
-        //                 </DialogContentText>
-        //                 <Box
-        //                     noValidate
-        //                     component="form"
-        //                     sx={{
-        //                         display: 'flex',
-        //                         flexDirection: 'column',
-        //                         m: 'auto',
-        //                         width: 'fit-content',
-        //                     }}
-        //                 >
-        //                 </Box>
-        //             </DialogContent>
-        //             <DialogActions>
-        //                 <Button type="submit">Submit</Button>
-        //                 <Button autoFocus onClick={handleClose}>Cancel</Button>
-        //             </DialogActions>
-        //         </form>
-        //     </Dialog>
-        // </React.Fragment>
     );
 }

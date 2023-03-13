@@ -1,4 +1,3 @@
-
 // React
 import * as React from 'react';
 import {useEffect, useState} from "react";
@@ -11,15 +10,13 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ListItemIcon from "@mui/material/ListItemIcon";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories.js";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
+
+;
 
 // MUI DataGrid
-import {DataGrid, GridLogicOperator, GridToolbar, GridToolbarQuickFilter, useGridApiRef} from '@mui/x-data-grid';
+import {DataGrid, GridToolbarQuickFilter, useGridApiRef} from '@mui/x-data-grid';
 
 // Axios
 import axios from "axios";
@@ -28,9 +25,7 @@ import axios from "axios";
 import AddBookDialog from "../modals/library/AddBookDialog.jsx";
 import AddDvdDialog from "../modals/library/AddDvdDialog.jsx";
 import AddAudioBookDialog from "../modals/library/AddAudioBookDialog.jsx";
-import {TabPanel, a11yProps} from "../components/TabPanel.jsx";
 import AddReferenceBookDialog from "../modals/library/AddReferenceBookDialog.jsx";
-// import EditCategoriesDialog from "../modals/edit_dialogs/EditCategoriesDialog.jsx";
 import AddCheckoutDialog from "../modals/library/AddCheckoutDialog.jsx";
 import AddCheckinDialog from "../modals/library/AddCheckinDialog.jsx";
 import Link from "../components/StyledLink.jsx";
@@ -38,8 +33,6 @@ import Link from "../components/StyledLink.jsx";
 // Context
 import {useToast} from "../components/ToastContextProvider";
 
-
-// const {useQuery, ...data} = createFakeServer({}, SERVER_OPTIONS);
 
 function acronym(title) {
     return title.toString().split(' ').map((word) => word[0]).join('').toUpperCase()
@@ -126,17 +119,6 @@ const columns = [
         ),
     },
 
-    // {
-    //     field: 'isManager',
-    //     headerName: 'IsManager',
-    //     description: 'This column has a value getter and is not sortable.',
-    //     sortable: true,
-    //     editable: false,
-    //     width: 160,
-    //     valueGetter: (params) =>
-    //         `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    // },
-
 ];
 
 function handleDelete({api, row}) {
@@ -144,14 +126,13 @@ function handleDelete({api, row}) {
         .then(response => response.data)
         .then(data => {
             if (data) {
-                console.log("remove: " + row.id)
+                // console.log("remove: " + row.id)
                 api.updateRows([{id: row.id, _action: 'delete'}]);
             }
         }).catch((e) => console.log(e))
 }
 
 export default function LibItemTable() {
-    const [useOnce, setUse] = useState(true)
     const [rows, setRows] = useState([])
     const [isLoading, setLoading] = useState(true)
     const [totalRowCount, setTotalRowCount] = useState(0)
@@ -175,7 +156,6 @@ export default function LibItemTable() {
 
     const fetchData = () => {
         setLoading(true)
-        // axios.get("/api/lib-items?limit=" + pageSize + "&page=" + page)
         axios.get("/api/lib-items")
             .then(response => {
                 return response.data
@@ -188,10 +168,6 @@ export default function LibItemTable() {
             .finally(() => setLoading(false))
     }
 
-    // React.useEffect(() => {
-    //     fetchData()
-    // }, [useOnce]);
-
     React.useEffect(() => {
         fetchData()
         const interval = setInterval(() => fetchData(), 60 * 1000);
@@ -200,15 +176,9 @@ export default function LibItemTable() {
         };
     }, []);
 
-    React.useEffect(() => {//TODO remove
-        console.log("Update row")
-    }, [rows]);
-
     const addRow = (row) => {
-        // setRows([...rows,row])
         apiRef.current.updateRows([row]);
     }
-    // const { isLoading, rows, pageInfo } = useQuery(paginationModel); //Fake data
 
     const [paginationModel, setPaginationModel] = React.useState({
         page: 0,
@@ -238,31 +208,10 @@ export default function LibItemTable() {
     useEffect(() => {
         setFilterModel(filterModels[tabPage])
         setColumnVisibilityModel(columnVisibilityModels[tabPage])
-        let pages = ['book','dvd','audio_book','reference_book']
+        let pages = ['book', 'dvd', 'audio_book', 'reference_book']
         setTotalRowCount(rows.filter(row => row.type == pages[tabPage]).length)
     }, [tabPage])
 
-    // const handlerChangeRow = async (data,e) => {
-    // console.log(data)
-    // console.log(e)
-    //
-    // if(data.reason == 'enterKeyDown') {
-    //     let res = await axios.post("/api/lib-item/update", data.row)
-    //         .catch(reason => console.log(reason.response.data))
-    //     // if(e.preventDefault) e.preventDefault()
-    //     if (!res) {
-    //         console.log("revert")
-    //         e.defaultMuiPrevented = true
-    //         // apiRef.current.stopRowEditMode({id:data.id,ignoreModifications:true})
-    //     } else {
-    //         console.log(res.status + " update ")
-    //         console.log(res)
-    //     }
-    // } else {
-    //     e.defaultMuiPrevented = true
-    //     apiRef.current.stopRowEditMode({id:data.id,ignoreModifications:true})
-    // }
-    // }
     const handlerCellClick = (data) => {
         if (data.field == "isBorrowable") {
             setSelectRow(data.row)
@@ -279,12 +228,11 @@ export default function LibItemTable() {
             newRow.title = removeAcronym(newRow.title).trimEnd()
             let res = await axios.post("/api/lib-item/update", newRow)
                 .catch(e => toastError(e))
-            // if(e.preventDefault) e.preventDefault()
             if (!res) {
                 apiRef.current.stopRowEditMode({id: oldRow.id, ignoreModifications: true})
                 return oldRow;
             } else {
-                console.log("update " + res.status)
+                // console.log("update " + res.status)
                 return newRow;
             }
         },
@@ -303,17 +251,12 @@ export default function LibItemTable() {
                     <Tab label="DVD"/>
                     <Tab label="Audio Book"/>
                     <Tab label="Reference Book"/>
-                    {/*<ListItemButton>*/}
-
-                    {/*<ListItemText primary="Library"/>*/}
-                    {/*</ListItemButton>*/}
                 </Tabs>
                 <ListItemIcon onClick={fetchData}>
                     <RestartAltIcon/>
                 </ListItemIcon>
             </Grid>
 
-            {/*<TabPanel value={value} index={0}>*/}
             <Box sx={{height: 685, width: '100%'}}>
                 <DataGrid
                     rows={rows}
@@ -325,7 +268,6 @@ export default function LibItemTable() {
 
                     editMode="row"
                     paginationModel={paginationModel}
-                    //paginationMode="server"
                     onPaginationModelChange={handlerPaginationModel}
                     pageSizeOptions={[5, 10, 20, 30]}
                     loading={isLoading}
@@ -336,14 +278,10 @@ export default function LibItemTable() {
                     }}
                     columnVisibilityModel={columnVisibilityModel}
                     onColumnVisibilityModelChange={(newModel) => setColumnVisibilityModel(newModel)}
-                    // onRowEditStop={handlerChangeRow}
-                    // processRowUpdate={processRowUpdate}
 
-                    // checkboxSelection
                     disableRowSelectionOnClick
                 />
             </Box>
-            {/*</TabPanel>*/}
             <Grid sx={{
                 'display': 'flex',
                 'align-items': 'center',
@@ -392,7 +330,6 @@ export default function LibItemTable() {
                                 handleClose={() => setOpenAddAudioBook(false)}/>
             <AddReferenceBookDialog addRow={addRow} open={isOpenAddReferenceBook}
                                     handleClose={() => setOpenAddReferenceBook(false)}/>
-            {/*<EditCategoriesDialog open={isOpenAddReferenceBook} handleClose={() => setOpenAddReferenceBook(false)}/>*/}
         </React.Fragment>
     );
 }

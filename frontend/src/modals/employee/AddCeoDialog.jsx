@@ -6,29 +6,18 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import {useState} from "react";
 import {useToast} from "../../components/ToastContextProvider.tsx";
-import {InputLabel, MenuItem, Select} from "@mui/material";
 import {number, object, string} from "yup";
 import axios from "axios";
 
 export default function AddCeoDialog({open, addRow, handleClose}) {
-    const { toastError } = useToast();
-
-    // const [salary, setSalary] = useState(0);
+    const {toastError} = useToast();
 
     let userSchema = object({
         firstName: string().required(),
         lastName: string().required(),
         salary: number().required().positive().integer().min(1).max(10),
     });
-
-    // const handleSalaryChange = (event) => {
-    //     const value = event.target.value;
-    //     if (value >= 1 && value <= 10) {
-    //         setSalary(value);
-    //     }
-    // };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -102,9 +91,6 @@ export default function AddCeoDialog({open, addRow, handleClose}) {
                                     autoComplete="given-name"
                                     variant="standard"
                                     defaultValue={"1"}
-                                    // value={salary}
-                                    // onChange={handleSalaryChange}
-                                    // inputProps={{ min: 1, max: 10 }}
                                 />
                             </Grid>
 
