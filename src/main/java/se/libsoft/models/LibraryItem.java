@@ -14,9 +14,9 @@ import se.libsoft.models.validating.library.ReferenceBook;
 import java.util.Date;
 
 /*
- * TODO Этот класс используеться для создания сущности таблицы lib_items
- * также используеться для валидации запросов приходящих от клиента.
- * в классе мы проводим валидацию для 4 типов: Книги, двд, аудио книги и справочники
+ * This class is used to create the entities for the lib_items table
+ * it is also used to validate the client requested objects.
+ * Validation for: books, dvd, audiobooks and reference books
  */
 @Entity
 @Table(name = "lib_items")

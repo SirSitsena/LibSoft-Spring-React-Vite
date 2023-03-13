@@ -18,19 +18,21 @@ public class MvcConfigs implements WebMvcConfigurer {
 
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.setUseSuffixPatternMatch(false);     // No need to specify the filetype in url
+        // No need to specify the filetype in url
+        configurer.setUseSuffixPatternMatch(false);
     }
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-        //TODO для View ищет хтмл файлы, это нужно для того чтобы все юрл вели на реакт,
-        // а именно на файл index.html а дальше реакт сам определит куда перенаправить
+        // ViewResolver looks for a View, that is needed so that all URL could lead to React,
+        // specifically the index.html file and React will then display the needed content depending on the path
         registry.jsp("/", ".html");
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")          // We allow all hosts
+        // We allow all hosts
+        registry.addMapping("/**")
                 .allowedMethods("*");
     }
 }
