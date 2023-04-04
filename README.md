@@ -25,3 +25,8 @@ npm run build
 npm run dev
 ```
 - Open your web browser and navigate to http://localhost:8081 to see your application running.
+
+# Database
+
+- If you started the db in RAM, then to be able to access it you will need the h2-console.
+- After running the Spring application check the `src/main/resources/application.properties`.
