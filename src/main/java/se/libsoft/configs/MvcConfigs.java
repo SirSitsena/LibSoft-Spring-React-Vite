@@ -12,7 +12,7 @@ public class MvcConfigs implements WebMvcConfigurer {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/public/")
                 .setUseLastModified(true)
-                .setCachePeriod(1)
+                .setCachePeriod(1000)
                 .resourceChain(true);
     }
 

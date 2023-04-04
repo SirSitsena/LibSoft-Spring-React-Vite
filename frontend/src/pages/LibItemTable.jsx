@@ -13,8 +13,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ListItemIcon from "@mui/material/ListItemIcon";
 
-;
-
 // MUI DataGrid
 import {DataGrid, GridToolbarQuickFilter, useGridApiRef} from '@mui/x-data-grid';
 
@@ -44,6 +42,17 @@ function removeAcronym(title) {
         return split[0]
     }
     return title;
+}
+
+function handleDelete({api, row}) {
+    axios.delete("api/lib-item/" + row.id)
+        .then(response => response.data)
+        .then(data => {
+            if (data) {
+                // console.log("remove: " + row.id)
+                api.updateRows([{id: row.id, _action: 'delete'}]);
+            }
+        }).catch((e) => console.log(e))
 }
 
 const columns = [
@@ -120,17 +129,6 @@ const columns = [
     },
 
 ];
-
-function handleDelete({api, row}) {
-    axios.delete("api/lib-item/" + row.id)
-        .then(response => response.data)
-        .then(data => {
-            if (data) {
-                // console.log("remove: " + row.id)
-                api.updateRows([{id: row.id, _action: 'delete'}]);
-            }
-        }).catch((e) => console.log(e))
-}
 
 export default function LibItemTable() {
     const [rows, setRows] = useState([])

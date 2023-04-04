@@ -36,6 +36,9 @@ public class ErrorConfig {
                     if (message != null) {
                         builder.append(",\n\"message\":\"").append(HtmlUtils.htmlEscape((String) message)).append("\"");
                     }
+                                        if (trace != null) {
+                        builder.append(",\n\"trace\":\"").append(HtmlUtils.htmlEscape((String) trace)).append("\"");
+                    }
 
                     builder.append("\n}");
                     response.getWriter().append(builder.toString());

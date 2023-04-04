@@ -15,18 +15,21 @@ import axios from "axios";
 export default function AddManagerDialog({open, addRow, listManager, handleClose}) {
     const {toastError} = useToast();
 
-    let [managerId, setManagerId] = React.useState(0);
+    let [managerId, setManagerId] = React.useState(null);
 
     let userSchema = object({
         firstName: string().required(),
         lastName: string().required(),
         salary: number().required().positive().integer().min(1).max(10),
-        managerId: number().notRequired(),
+        // managerId: notRequired(),
     });
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+
+        let object = {};
+        data.forEach((value, key) => object[key] = value);
 
         object.isManager = true
         object.isCeo = false

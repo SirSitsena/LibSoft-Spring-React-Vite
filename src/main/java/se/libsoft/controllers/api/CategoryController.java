@@ -33,7 +33,7 @@ public class CategoryController {
     public Map<String, Object> getAllCategories() {
         Map<String, Object> root = new HashMap<>();
 
-        Map<Long, Category> categories = (Map<Long, Category>) entityManager
+        Map<Long, Category> categories = (Map<Long, Category>) entityManager    // TODO
                 .createQuery("select category, count(*) from LibraryItem group by category")
                 .getResultStream()
                 .map(o -> {

@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Validated
 @RestController
-@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)    // TODO
 public class EmployeeController {
     @Autowired
     private EmployeeRepository repository;
@@ -113,9 +113,7 @@ public class EmployeeController {
     }
 
     private void checkCeo(Employee item) {
-        System.out.println("item.isCeo() = " + item.isCeo());
         if (item.isCeo()) {
-            System.out.println("repository.findEmployeesByIsCeoIsTrue() = " + repository.findEmployeesByIsCeoIsTrue());
             repository.findEmployeesByIsCeoIsTrue().ifPresent(employee -> {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no space for 2 CEOs in this " +
                         "company");
